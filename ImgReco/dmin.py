@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 # -*- coding : utf-8 -*-
 
+import sys
+import time
 import numpy as np
 import matplotlib.pyplot as plt
-import sys
 
 labels={0 : "T-shirt/top",
         1 : "Trouser",
@@ -18,7 +19,9 @@ labels={0 : "T-shirt/top",
 
 #data and label are np.array
 def apprentissage(data, lbl):
+    t1 = time.clock()
     classes = []
+    barycentre = []
     for i in range (0,10):
         classes.append([])
 
@@ -28,25 +31,30 @@ def apprentissage(data, lbl):
     for i in range (0,len(classes)):
         classes[i] = np.array(classes[i])
         barycentre.append(np.mean(classes[i], 0))
+    t2 = time.clock()
+    print('DMIN : apprentissage ('+ str(len(data)) +' samples) -> ' + str(t2-t1)+'s')
     return barycentre
 
 def labelDev(data, label, barycentre):
+    print('DMIN : dev')
     lblRes = labeler(data, barycentre)
     err = 0
     for i, lbl in enumerate(lblRes):
         if lbl != label[i]:
             err += 1
-    print(err)
-    print(len(lblRes))
+    print(str(err) + " erreurs sur " + str(len(lblRes)) + " données à classer")
     return float(err)/float(len(lblRes))
 
 def labeler(data, barycentre):
+    t1 = time.clock()
     lblRes = []
     for img in data:
         dist = []
         for b in barycentre:
             dist.append(np.linalg.norm(img - b))
         lblRes.append(dist.index(min(dist)))
+    t2 = time.clock()
+    print('DMIN : label ('+ str(len(data)) +' samples) -> ' + str(t2-t1)+'s')
     return lblRes
 
 
