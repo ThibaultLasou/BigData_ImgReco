@@ -1,7 +1,9 @@
-#!/home/tlasou/anaconda3/bin/python3 
+#!/opt/anaconda3/bin/python3 
+#-*- coding:utf-8 -*-
 import sys
 import time
 import numpy as np
+import matplotlib.pyplot as plt
 from sklearn import svm
 from sklearn.decomposition import PCA
 import pca
@@ -39,55 +41,38 @@ def labeler(data, acp=-1):
     return lblRes;
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        args ={ '-td' : '',
-                '-tl' : '',
-                '-dd' : '',
-                '-dl' : '',
-                '-ld' : '',
-                '-ll' : '',
-                '-v' : False,
-                'train' : False,
-                'dev' : False,
-                'label' : False
-                }
-        for i, arg in enumerate(sys.argv):
-            if arg in args.keys():
-                if arg in ['-v', 'train', 'dev', 'label']:
-                    args[arg] = True
-                elif sys.argv[i+1] not in args.keys():
-                    args[arg] = sys.argv[i+1]
-                else:
-                    print("Wrong arguments")
-    else:
-        args = {'-td' : 'data/trn_img.npy',
-                '-tl' : 'data/trn_lbl.npy',
-                '-dd' : 'data/dev_img.npy',
-                '-dl' : 'data/dev_lbl.npy',
-                '-ld' : 'data/tst_img.npy',
-                '-ll' : 'data/tst_lbl.npy',
-                '-v' : True,
-                'train' : True,
-                'dev' : True,
-                'label' : True
-                }
+    args = {'td' : 'data/trn_img.npy',
+            'tl' : 'data/trn_lbl.npy',
+            'dd' : 'data/dev_img.npy',
+            'dl' : 'data/dev_lbl.npy',
+            'ld' : 'data/tst_img.npy',
+            'v'  : True,
+            'train' : True,
+            'dev' : True,
+            'label' : True
+            }
 
+    x = [-1]
+    x.extend(range(10,200,10))
+    err = []
+    res = []
+    for i in x:
         if args["train"]:
-            trData = np.load(args['-td'])
-            trLabel = np.load(args['-tl']) 
-            apprentissage(trData, trLabel, 10) #ici
+            trData = np.load(args['td'])
+            trLabel = np.load(args['tl']) 
+            apprentissage(trData, trLabel, i) 
         if args["dev"]:
-            devData = np.load(args['-dd'])
-            devLabel = np.load(args['-dl']) 
-            err = labelDev(devData, devLabel, 1) 
-            if args['-v']:
-                print(err)
+            devData = np.load(args['dd'])
+            devLabel = np.load(args['dl']) 
+            err.append(labelDev(devData, devLabel, i))
         if args["label"]:
-            lbData = np.load(args['-dd'])
-            lbLabel = np.load(args['-dl']) 
-            res = labeler(lbData, 1) 
-    #        print(res)
+            lbData = np.load(args['dd'])
+            lbLabel = np.load(args['dl']) 
+            res.append(labeler(lbData, i))
 
-     #   imgP = img.reshape(28,28)
-     #   plt.imshow(imgP, plt.cm.gray)
-     #   plt.show()
+    plt.plot(x,err)
+    plt.show()
+
+    best = res[err.index(min(err))]
+    best = np.array(best)
+    np.save('test.npy', best)

@@ -59,57 +59,29 @@ def labeler(data, barycentre):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        args ={ '-td' : '',
-                '-tl' : '',
-                '-dd' : '',
-                '-dl' : '',
-                '-ld' : '',
-                '-ll' : '',
-                '-v' : False,
-                'train' : False,
-                'dev' : False,
-                'label' : False
-                }
-        for i, arg in enumerate(sys.argv):
-            if arg in args.keys():
-                if arg in ['-v', 'train', 'dev', 'label']:
-                    args[arg] = True
-                elif sys.argv[i+1] not in args.keys():
-                    args[arg] = sys.argv[i+1]
-                else:
-                    print("Wrong arguments")
-    else:
-        args = {'-td' : 'data/trn_img.npy',
-                '-tl' : 'data/trn_lbl.npy',
-                '-dd' : 'data/dev_img.npy',
-                '-dl' : 'data/dev_lbl.npy',
-                '-ld' : 'data/tst_img.npy',
-                '-ll' : 'data/tst_lbl.npy',
-                '-v' : True,
-                'train' : True,
-                'dev' : True,
-                'label' : True
-                }
+    args = {'td' : 'data/trn_img.npy',
+            'tl' : 'data/trn_lbl.npy',
+            'dd' : 'data/dev_img.npy',
+            'dl' : 'data/dev_lbl.npy',
+            'ld' : 'data/tst_img.npy',
+            'v' : True,
+            'train' : True,
+            'dev' : True,
+            'label' : True
+            }
 
     barycentre = []
     if args["train"]:
-        trData = np.load(args['-td'])
-        trLabel = np.load(args['-tl']) 
+        trData = np.load(args['td'])
+        trLabel = np.load(args['tl']) 
         barycentre = apprentissage(trData, trLabel)
     if args["dev"]:
-        devData = np.load(args['-dd'])
-        devLabel = np.load(args['-dl']) 
+        devData = np.load(args['dd'])
+        devLabel = np.load(args['dl']) 
         err = labelDev(devData, devLabel, barycentre)
-        if args['-v']:
+        if args['v']:
             print(err)
     if args["label"]:
-        lbData = np.load(args['-dd'])
-        lbLabel = np.load(args['-dl']) 
+        lbData = np.load(args['dd'])
+        lbLabel = np.load(args['dl']) 
         res = labeler(lbData,barycentre)
-#        print(res)
-
-     #   imgP = img.reshape(28,28)
-     #   plt.imshow(imgP, plt.cm.gray)
-     #   plt.show()
-
