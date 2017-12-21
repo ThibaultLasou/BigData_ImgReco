@@ -1,0 +1,76 @@
+\documentclass{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{textcomp}
+\usepackage[x11names]{xcolor}
+\usepackage{tikz}
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}     
+\usepackage{ulem}
+\usepackage{enumitem}
+\usepackage{fourier-orns}
+\usepackage{graphicx}
+\usepackage[explicit]{titlesec}
+\usepackage{gensymb}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{array,multirow,makecell}
+
+\usetikzlibrary{arrows, positioning, fit, shapes, decorations.pathreplacing, calc}
+
+\title{Big Data\\Projet de reconnaissance d'images\\2e partie}\let\mytitle\thetitle
+\author{Thibault \textsc{Lasou}}
+\date\today
+
+\newcommand{\tikzmark}[1]{\tikz[overlay,remember picture] \node[text height=6pt] (#1) {};}
+ 
+\newcommand\reduline{\bgroup\markoverwith
+{\textcolor{red}{\rule[-0.5ex]{2pt}{0.4pt}}}\ULon}
+\newcommand\greenuline{\bgroup\markoverwith
+{\textcolor{green}{\rule[-0.5ex]{2pt}{0.4pt}}}\ULon}
+\newcommand\blueuline{\bgroup\markoverwith
+{\textcolor{blue}{\rule[-0.5ex]{2pt}{0.4pt}}}\ULon}
+
+\titleformat{\chapter}[display]{\LARGE\bfseries}{\centering \textcolor{red}{\uline{\mbox{\chaptertitlename \hspace{5pt}\thechapter}}}}{0pt}{\smallskip\centering \textcolor{red}{\uline{#1}}}
+\titleformat{\section}[hang]{\Large\bfseries}{\thesection}{10pt}{\reduline{#1}}
+\titleformat{\subsection}[hang]{\large\bf}{\thesubsection}{10pt}{\uline{#1}}
+
+\fancypagestyle{polytech}
+{
+	\fancyhf{}
+	\lhead{\includegraphics[height=1cm]{/home/tlasou/vim/POLYTECH_PARIS-SUD_RVB.jpg}}
+	\rhead{\leftmark}
+	\chead{\centering{{\bf \Large{\mytitle}}}}
+	\cfoot{Page \thepage}
+	\rfoot{\theauthor}
+	\lfoot{\today}
+}
+
+\fancypagestyle{plain}
+{
+	\fancypagestyle{polytech}
+}
+
+\footskip = 40pt
+\headheight = 35pt
+\textheight = 650pt
+
+
+\newcommand{\diff}{\mathop{}\mathopen{}\mathrm{d}}
+\newcommand{\R}{\mathop{}\mathopen{}\mathbb{R}}
+
+\begin{document}
+\pagestyle{polytech}
+%\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
+\renewcommand{\chaptermark}[1]{%
+	\markboth{\textsc{\chaptername
+}\ \thechapter\\#1}{}}
+\part*{\mytitle}
+
+
+\end{document}
+
