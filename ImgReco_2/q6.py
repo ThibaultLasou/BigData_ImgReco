@@ -15,10 +15,10 @@ class CNN(nn.Module):
     def __init__(self):
             super(CNN, self).__init__()
             self.conv1 = nn.Conv2d(1, 6, 5)
-            self.conv2 = nn.Conv2d(20, 16, 5)
-            self.fc1 = nn.Linear(4*4*50, 500)
-            self.fc2 = nn.Linear(500, 10)
-            self.fc3 = nn.Linear(500, 10)
+            self.conv2 = nn.Conv2d(6, 16, 5)
+            self.fc1 = nn.Linear(4*4*16, 120)
+            self.fc2 = nn.Linear(120, 84)
+            self.fc3 = nn.Linear(84, 10)
 
 
     def forward(self, x):
